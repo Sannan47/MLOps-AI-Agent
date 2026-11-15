@@ -107,3 +107,41 @@ def test_quality_gate_promotes_champion_then_challenger(mlflow_env, tmp_path, pa
     assert out2["alias"] == "challenger"
     assert common.REPO_ROOT.exists()
     assert Path(common.__file__).exists()
+
+
+def test_supersede_previous_attempts_marks_earlier_runs_failed():
+    from types import SimpleNamespace
+    from unittest.mock import MagicMock
+
+    def run(rid, status, tags=None):
+        return SimpleNamespace(
+            info=SimpleNamespace(run_id=rid, status=status),
+            data=SimpleNamespace(tags=tags or {}),
+        )
+
+    client = MagicMock()
+    client.search_runs.return_value = [
+        run("try1", "FINISHED"),
+        run("old", "FAILED", {"airflow.superseded_by_retry": "true"}),
+    ]
+    out = train.supersede_previous_attempts("1", "manual__x'y", client=client)
+    assert out == ["try1"]
+    expected = "tags.`airflow.dag_run_id` = 'manual__x" + "\\" + "'y'"
+    assert client.search_runs.call_args.kwargs["filter_string"] == expected
+    client.set_tag.assert_called_once_with("try1", "airflow.superseded_by_retry", "true")
+    client.set_terminated.assert_called_once_with("try1", status="FAILED")
+
+
+@pytest.mark.slow
+def test_airflow_retry_does_not_leave_orphan_finished_run(
+    mlflow_env, tmp_path, params, monkeypatch
+):
+    monkeypatch.setenv("AIRFLOW_DAG_RUN_ID", "manual__retry_test")
+    first = run_pipeline(tmp_path, params, "attempt1")
+    second = run_pipeline(tmp_path, params, "attempt2")
+    client = MlflowClient(mlflow_env)
+    r1, r2 = client.get_run(first), client.get_run(second)
+    assert r1.info.status == "FAILED"
+    assert r1.data.tags["airflow.superseded_by_retry"] == "true"
+    assert r2.info.status == "FINISHED"
+    assert "airflow.superseded_by_retry" not in r2.data.tags
