@@ -142,3 +142,17 @@ def test_persistent_rate_limit_and_errors_map_to_unavailable(gemini):
     respx.post(URL).mock(side_effect=httpx.ConnectError("down"))
     with pytest.raises(LLMUnavailable, match="connection"):
         gemini.create("s", [{"role": "user", "content": "x"}], [])
+
+
+def test_openrouter_provider_selected(monkeypatch):
+    from agent.llm import OpenRouterLLM, make_llm
+
+    s = get_settings()
+    monkeypatch.setattr(s, "llm_provider", "openrouter")
+    monkeypatch.setattr(s, "openrouter_api_key", "test-key")
+    llm = make_llm()
+    assert isinstance(llm, OpenRouterLLM)
+    assert llm.url == "https://openrouter.ai/api/v1/chat/completions"
+    monkeypatch.setattr(s, "openrouter_api_key", "")
+    with pytest.raises(LLMUnavailable):
+        make_llm()

@@ -41,7 +41,8 @@ cp .env.example .env     # then edit .env; it is git-ignored
 
 | Variable | Meaning |
 |---|---|
-| `LLM_PROVIDER` | `anthropic` (default) or `gemini` |
+| `LLM_PROVIDER` | `anthropic` (default), `gemini` or `openrouter` |
+| `OPENROUTER_API_KEY` / `OPENROUTER_MODEL` | OpenRouter key and model (default `anthropic/claude-haiku-5.5`) |
 | `ANTHROPIC_API_KEY` / `AGENT_MODEL` | Claude key and model (default `claude-opus-5-5`) |
 | `GEMINI_API_KEY` / `GEMINI_MODEL` | Gemini key and model (free tier has small daily quotas per model) |
 | `MLFLOW_TRACKING_URI` | `http://localhost:5000` |

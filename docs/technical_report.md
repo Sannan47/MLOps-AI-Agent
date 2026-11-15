@@ -7,7 +7,7 @@ Repository: https://github.com/Sannan47/MLOps-AI-Agent
 See [architecture.md](../architecture.md) for the component, sequence, confirmation-flow, provenance and trust-boundary diagrams. Summary:
 
 - **User interface:** FastAPI agent API (`/chat`, `/actions/{id}/confirm|reject`, `/health`, `/tools`) and a CLI (`python -m agent.main`).
-- **Agent:** a manual tool-use loop (`agent/orchestrator.py`, max 12 iterations, time budget) over an `LLMClient` protocol. Implementations: `AnthropicLLM`, `GeminiLLM` (OpenAI-compatible endpoint), and a scripted `FakeLLM` used by tests and CI so no API key is needed there.
+- **Agent:** a manual tool-use loop (`agent/orchestrator.py`, max 12 iterations, time budget) over an `LLMClient` protocol. Implementations: `AnthropicLLM`, `GeminiLLM` and `OpenRouterLLM` (both OpenAI-compatible), and a scripted `FakeLLM` used by tests and CI so no API key is needed there.
 - **Tool registry** (`agent/registry.py`): pydantic-validated inputs (`extra=forbid`), per-tool timeouts, permission checks, structured logging with secret redaction, and results as `ToolResult` (`ok | error | unavailable | timeout | rejected | pending_confirmation`). It never raises into the LLM loop.
 - **Four tool modules** (33 tools in total, 7 to 11 per module) plus one policy helper:
   DVC (8), MLflow (7), Airflow (7), Kubernetes (11), policy (1).
@@ -68,7 +68,7 @@ Screenshots (UI shots are captured from the live MLflow and Airflow UIs by `scri
 
 ## 4. Five tested agent conversations
 
-All were run with the real agent against the live stack. Transcripts include the request id, ordered tool calls with arguments, statuses and durations, and the final answer with `[E-id]` citations. They were produced with Gemini (`gemini-3.5-flash`; `gemini-3-flash-preview` where noted) because the free tier was used.
+All were run with the real agent against the live stack. Transcripts include the request id, ordered tool calls with arguments, statuses and durations, and the final answer with `[E-id]` citations. They were produced with Gemini (`gemini-3.5-flash`; `gemini-3-flash-preview` where noted) because the free tier was used. Conversations 6 to 9 (failures B and C) were recorded with Claude Haiku 5.5 through OpenRouter.
 
 | # | Prompt | Transcript | Tools called (all `ok`) |
 |---|---|---|---|
@@ -106,7 +106,7 @@ Limitations
 - Conversation quality depends on the model: a lite-tier model produced a fluent, fully cited but wrong answer in a trial run (treated the latest run as the best, claimed nothing was registered). That transcript was discarded and the tool and prompt were fixed, but it shows the validator is not a substitute for a strong model.
 - The unhealthy-pod check counts any restart, so pods look unhealthy after a node restart even when Ready.
 - `AnthropicLLM` was implemented but not exercised against the live API.
-- Failure B and C were investigated with tool traces; only Failure A has an LLM conversation.
+- Failure A was recorded with Gemini, B and C with Claude Haiku 5.5 via OpenRouter (conversations 4, 6 to 9). A validator bug found while recording B (a pending action's id was treated as unsupported) was fixed and the conversation re-recorded.
 
 Improvements
 - S3/MinIO DVC remote, Postgres for MLflow, Celery/Kubernetes executor, persistent action store, OpenTelemetry tracing, drift monitoring (Evidently), HPA and PodDisruptionBudget, GitOps for image tags, model-in-image vs model registry loading, an LLM-as-judge or rule check for conclusions, restart-count decay in health checks.

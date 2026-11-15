@@ -1,6 +1,6 @@
 # Failure investigations
 
-Three failures were injected on the live stack, one per layer. Every number below comes from the saved evidence files, not from memory. "Agent conversation" means the real agent loop with a live LLM; "tool trace" means the same agent tools run directly (no LLM) when no conversation was recorded.
+Three failures were injected on the live stack, one per layer. Every number below comes from the saved evidence files, not from memory. "Agent conversation" means the real agent loop with a live LLM; "tool trace" means the same agent tools run directly (no LLM). Failures B and C were recorded with Claude Haiku 5.5 through OpenRouter; failure A with Gemini.
 
 ## Failure A: Kubernetes, broken image tag (infrastructure layer)
 
@@ -32,7 +32,9 @@ Three failures were injected on the live stack, one per layer. Every number belo
 
 **Symptom:** new pods Running but not Ready; Service with 1 ready and 2 not-ready endpoints.
 
-**Tool trace** (`evidence/failures/B/tool_results.json`, `kubectl_get.txt`; no LLM conversation recorded for this failure):
+**Agent conversation:** `evidence/conversations/conv6_k8s_failureB_bad_config.json` (diagnosis; it cited the model-load `FileNotFoundError` and `MODEL_PATH=/models/missing.joblib`, and warned that a restart alone would not fix a wrong path) and `conv7_k8s_failureB_restart_confirmed.json` (restart request left pending until a human confirmed). Its answer notes that it could verify the log error for only one of the two pods.
+
+**Tool trace** (`evidence/failures/B/tool_results.json`, `kubectl_get.txt`):
 - events: `Readiness probe failed: HTTP probe failed with statuscode: 503`
 - pod logs (`k8s_diagnose_service`): `model load failed: FileNotFoundError: [Errno 2] No such file or directory: '/models/missing.joblib'`
 - `k8s_get_deployed_version`: image tag `1.0.0` (correct) but ConfigMap `MODEL_PATH=/models/missing.joblib`
@@ -48,6 +50,8 @@ Three failures were injected on the live stack, one per layer. Every number belo
 **Injection:** `scripts/make_dataset_versions.py corrupted` (label column removed, 35% nulls in a feature, never tagged), then trigger `ml_training_pipeline` with `{"dataset_path": "data/raw/corrupted.csv"}` through the confirmation flow.
 
 **Symptom:** DAG run `failed`.
+
+**Agent conversations:** `conv8a_airflow_corrupted_clarification.json` (the agent declined to trigger on an untracked file until told it was a deliberate test), `conv8b_airflow_trigger_corrupted.json` (trigger created as `pending_confirmation`, then confirmed by a human) and `conv9_airflow_failureC_diagnosis.json` (failed task `validate_dataset`, missing `label`, downstream `upstream_failed`, no new MLflow run, champion unchanged).
 
 **Tool trace** (`evidence/airflow/failure_C_corrupted_dataset.json`):
 - `airflow_get_failed_tasks`: `validate_dataset` = failed; `preprocess_data`, `train_model`, `evaluate_and_log_mlflow`, `apply_quality_gate` = `upstream_failed`
@@ -66,4 +70,4 @@ Trigger with `{"dataset_rev": "data-v1.1", "min_f1": 0.999}`: all tasks succeed 
 
 ## Replay tests
 
-Fixture-based replay tests of these traces (`tests/`) are covered by the unit tests for `find_unhealthy_pods` (CrashLoopBackOff, ImagePullBackOff), `diagnose_service` (0 endpoints), log diagnostics extraction and the validation/gate paths; a dedicated replay file built from the saved JSON is not included.
+`tests/test_replay.py` replays the saved evidence: every recorded conversation's answer is re-checked by the grounding validator against its own saved tool results, and the failure B and C traces are asserted to contain the key diagnostic facts. Unit tests additionally cover `find_unhealthy_pods` (CrashLoopBackOff, ImagePullBackOff), `diagnose_service` (0 endpoints), log diagnostics and the validation/gate paths.

@@ -13,7 +13,10 @@ class Settings(BaseSettings):
 
     anthropic_api_key: str = ""
     agent_model: str = "claude-opus-5-5"
-    llm_provider: str = "anthropic"  # anthropic | gemini
+    llm_provider: str = "anthropic"  # anthropic | gemini | openrouter
+    openrouter_api_key: str = ""
+    openrouter_model: str = "anthropic/claude-haiku-5.5"
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
     gemini_api_key: str = ""
     gemini_model: str = "gemini-3.5-flash"
     gemini_base_url: str = "https://generativelanguage.googleapis.com/v1beta/openai"

@@ -8,7 +8,7 @@ flowchart LR
   CLI[CLI agent.main] --> AG
   API --> AG
   subgraph AG[Agent]
-    LLM[LLM client<br/>Gemini / Claude] <--> ORC[Orchestrator loop<br/>tool selection, tracing]
+    LLM[LLM client<br/>Gemini / OpenRouter / Claude] <--> ORC[Orchestrator loop<br/>tool selection, tracing]
     ORC --> REG[Tool registry<br/>schema validation, timeouts,<br/>permissions, structured logs]
     ORC --> GV[Grounding validator<br/>unavailable-tool guard]
   end
