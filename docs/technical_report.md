@@ -49,7 +49,22 @@ Exported evidence (all produced by real runs on the live stack):
 | Failures | `evidence/failures/A`, `B`, `C` |
 | Conversations | `evidence/conversations/` |
 
-Screenshots are in `screenshots/` (see the list at the end of this section).
+Screenshots (UI shots are captured from the live MLflow and Airflow UIs by `scripts/take_screenshots.py`; the `k8s_*` and `dvc_*` images render the real command output saved under `evidence/`, they are not terminal captures):
+
+- `screenshots/airflow_dag_overview.png`
+- `screenshots/airflow_runs_list.png`
+- `screenshots/airflow_tasks.png`
+- `screenshots/dvc_dag.png`
+- `screenshots/dvc_versions_and_checkout.png`
+- `screenshots/k8s_describe_deployment.png`
+- `screenshots/k8s_failure_A_imagepull.png`
+- `screenshots/k8s_failure_B_readiness.png`
+- `screenshots/k8s_get_all.png`
+- `screenshots/k8s_rbac_can_i.png`
+- `screenshots/mlflow_experiments.png`
+- `screenshots/mlflow_model_registry.png`
+- `screenshots/mlflow_run_tags_provenance.png`
+- `screenshots/mlflow_runs_table.png`
 
 ## 4. Five tested agent conversations
 
@@ -80,7 +95,7 @@ Three failures (Kubernetes image tag, Kubernetes config, Airflow corrupted data)
 - `uv run pytest`: **73 tests pass in about 20 s** with no network access; plus 3 slow tests (real MLflow/sklearn training: provenance tags, gate blocks promotion, champion/challenger promotion) and integration tests that need the live stack (DVC compare, MLflow, live cluster).
 - Coverage of `agent/`: **85%** (gate 70% in CI).
 - Required cases covered: successful tool selection and execution (FakeLLM tests), the mandatory multi-tool scenario with no auto-trigger, tool timeout, invalid arguments, service failures (MLflow unavailable, Airflow 500 and down), **no invented results when a tool is unavailable**, **unauthorized Kubernetes namespace rejected before any client call**, mutating actions executed only after confirmation (exactly once), expired/unknown action ids, non-approved DAG, structured log fields, secret redaction, DVC allowlist and bad revisions, best-run max/min/ties, readiness checks, failed-task and log diagnostics, unhealthy-pod detection (CrashLoopBackOff, ImagePullBackOff), retraining policy rules, grounding validator, validation and gate behaviour, serving endpoints (503 without model, 422 on bad input), Gemini adapter (schema reduction, retries, errors).
-- CI: `.github/workflows/ci.yml` runs lint, tests with coverage, kubeconform and a Docker build on pull requests and pushes to `main`; CI_LINK
+- CI: `.github/workflows/ci.yml` runs lint, tests with coverage, kubeconform and a Docker build on pull requests and pushes to `main`; pull request: https://github.com/Sannan47/MLOps-AI-Agent/pull/1 (CI result recorded in section 3 evidence once green).
 
 Bugs found only by running against the live stack (fixed, with regression tests where possible): MLflow 3.18 Host-header check blocked Airflow; MLflow auto-detected `uv.lock` and exported conflicting pins; git rejected the mounted repo as not owned by the container user; a task parameter named `run_id` collided with an Airflow reserved key; the init container created an unwritable passwords file; the DAG recorded workspace data as provenance instead of the revision used (two mislabelled runs corrected); the log tool dropped structured exception details; the registry tool returned an empty list for an unknown model name, which misled a weaker LLM into claiming nothing was registered.
 

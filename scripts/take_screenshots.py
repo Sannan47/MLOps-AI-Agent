@@ -4,7 +4,6 @@ Run:  uv run --with playwright python -m scripts.take_screenshots
 Logs in to the local Airflow with the credentials in .env (never printed)."""
 
 import html
-import json
 import pathlib
 
 from playwright.sync_api import sync_playwright
@@ -43,7 +42,12 @@ def main() -> None:
 
         shot(f"{MLFLOW}/#/experiments", "mlflow_experiments.png")
         shot(f"{MLFLOW}/#/experiments/{exp}", "mlflow_runs_table.png", 6000)
-        shot(f"{MLFLOW}/#/experiments/{exp}/runs/{best}", "mlflow_run_tags_provenance.png", 6000, True)
+        shot(
+            f"{MLFLOW}/#/experiments/{exp}/runs/{best}",
+            "mlflow_run_tags_provenance.png",
+            6000,
+            True,
+        )
         shot(f"{MLFLOW}/#/models/breast_cancer_clf", "mlflow_model_registry.png", 5000)
 
         pg.goto(f"{AIRFLOW}/", wait_until="domcontentloaded")
@@ -68,16 +72,26 @@ def main() -> None:
         pg = b.new_page(viewport={"width": 1400, "height": 900})
         pages = {
             "k8s_get_all.png": ("kubectl -n mlops-app get all", "evidence/k8s/get_all.txt"),
-            "k8s_describe_deployment.png": ("kubectl describe deploy prediction-api",
-                                            "evidence/k8s/describe_deployment.txt"),
-            "k8s_rbac_can_i.png": ("kubectl auth can-i ... --as=mlops-agent",
-                                   "evidence/k8s/rbac_can_i.txt"),
-            "k8s_failure_A_imagepull.png": ("Failure A: pods and events",
-                                            "evidence/failures/A/kubectl_get.txt"),
-            "k8s_failure_B_readiness.png": ("Failure B: pods and endpoints",
-                                            "evidence/failures/B/kubectl_get.txt"),
-            "dvc_versions_and_checkout.png": ("DVC versions, diff, status, md5 checkout",
-                                              "evidence/dvc/versions.md"),
+            "k8s_describe_deployment.png": (
+                "kubectl describe deploy prediction-api",
+                "evidence/k8s/describe_deployment.txt",
+            ),
+            "k8s_rbac_can_i.png": (
+                "kubectl auth can-i ... --as=mlops-agent",
+                "evidence/k8s/rbac_can_i.txt",
+            ),
+            "k8s_failure_A_imagepull.png": (
+                "Failure A: pods and events",
+                "evidence/failures/A/kubectl_get.txt",
+            ),
+            "k8s_failure_B_readiness.png": (
+                "Failure B: pods and endpoints",
+                "evidence/failures/B/kubectl_get.txt",
+            ),
+            "dvc_versions_and_checkout.png": (
+                "DVC versions, diff, status, md5 checkout",
+                "evidence/dvc/versions.md",
+            ),
             "dvc_dag.png": ("dvc dag", "evidence/dvc/dvc_dag.txt"),
         }
         for name, (title, src) in pages.items():
@@ -85,8 +99,6 @@ def main() -> None:
             pg.screenshot(path=str(OUT / name), full_page=True)
             print("saved", name)
         b.close()
-    json.dump({"note": "k8s_*/dvc_* screenshots render real saved command output"},
-              open(OUT / "README.json", "w"))
 
 
 if __name__ == "__main__":
