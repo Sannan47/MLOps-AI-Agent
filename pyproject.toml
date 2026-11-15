@@ -1,0 +1,39 @@
+[project]
+name = "mlops-ai-agent"
+version = "0.1.0"
+description = "Production-ready MLOps AI agent (DVC, MLflow, Airflow, Kubernetes)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "anthropic",
+  "fastapi",
+  "uvicorn",
+  "pydantic>=2",
+  "pydantic-settings",
+  "httpx",
+  "mlflow",
+  "dvc",
+  "kubernetes",
+  "scikit-learn",
+  "pandas",
+  "pyyaml",
+  "matplotlib",
+  "joblib",
+]
+
+[dependency-groups]
+dev = ["pytest", "pytest-cov", "pytest-timeout", "respx", "ruff", "mypy", "types-pyyaml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: needs live services (RUN_INTEGRATION=1)", "slow: slow tests"]
+timeout = 60
+
+[tool.setuptools]
+packages = ["agent", "agent.tools", "api", "serving", "training"]

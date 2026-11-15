@@ -1,0 +1,7 @@
+tmp/
+.venv/
+.git/
+mlruns/
+tests/
+evidence/
+screenshots/
