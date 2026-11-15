@@ -172,12 +172,15 @@ class GeminiLLM:
     """LLMClient backed by Gemini's OpenAI-compatible endpoint (free tier friendly)."""
 
     def __init__(self, max_retries: int = 4) -> None:
+        self.key, self.model, base = self._config()
+        self.url = base.rstrip("/") + "/chat/completions"
+        self.max_retries = max_retries
+
+    def _config(self) -> tuple[str, str, str]:
         s = get_settings()
         if not s.gemini_api_key:
             raise LLMUnavailable("GEMINI_API_KEY is not set")
-        self.key, self.model = s.gemini_api_key, s.gemini_model
-        self.url = s.gemini_base_url.rstrip("/") + "/chat/completions"
-        self.max_retries = max_retries
+        return s.gemini_api_key, s.gemini_model, s.gemini_base_url
 
     def create(self, system: str, messages: list[dict], tools: list[dict]) -> LLMResponse:
         body = {
@@ -237,11 +240,23 @@ class GeminiLLM:
         return LLMResponse(blocks, "tool_use" if uses else "end_turn", text, uses)
 
 
+class OpenRouterLLM(GeminiLLM):
+    """Same OpenAI-compatible chat/tool protocol, served by OpenRouter."""
+
+    def _config(self) -> tuple[str, str, str]:
+        s = get_settings()
+        if not s.openrouter_api_key:
+            raise LLMUnavailable("OPENROUTER_API_KEY is not set")
+        return s.openrouter_api_key, s.openrouter_model, s.openrouter_base_url
+
+
 def make_llm() -> LLMClient:
-    """Pick the provider from LLM_PROVIDER (anthropic | gemini)."""
+    """Pick the provider from LLM_PROVIDER (anthropic | gemini | openrouter)."""
     provider = get_settings().llm_provider.lower()
     if provider == "gemini":
         return GeminiLLM()
+    if provider == "openrouter":
+        return OpenRouterLLM()
     if provider == "anthropic":
         return AnthropicLLM()
     raise LLMUnavailable(f"unknown LLM_PROVIDER '{provider}'")

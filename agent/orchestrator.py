@@ -57,14 +57,17 @@ class Evidence:
         self.results.append(r)
 
     @property
+    def supporting(self) -> list[ToolResult]:
+        """Results whose data may back a claim. A pending action's id and args are real facts."""
+        return [r for r in self.results if r.status in ("ok", "pending_confirmation")]
+
+    @property
     def ok_ids(self) -> set[str]:
-        return {r.evidence_id for r in self.results if r.status == "ok"}
+        return {r.evidence_id for r in self.supporting}
 
     @property
     def ok_text(self) -> str:
-        return " ".join(
-            json.dumps(r.data, default=str) for r in self.results if r.status == "ok"
-        ).lower()
+        return " ".join(json.dumps(r.data, default=str) for r in self.supporting).lower()
 
     @property
     def ok_numbers(self) -> list[float]:

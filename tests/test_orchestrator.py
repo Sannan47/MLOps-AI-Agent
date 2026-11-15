@@ -266,3 +266,20 @@ def test_multi_id_citations_are_not_flagged_as_numbers():
     assert "[E-ffffff]" in find_unsupported(f"x [{a.evidence_id}; E-ffffff]", ev)
     facts, _, _ = parse_sections(f"**Known facts**\n- ok [{a.evidence_id}, {b.evidence_id}]")
     assert facts[0].evidence_ids == [a.evidence_id, b.evidence_id]
+
+
+def test_pending_action_id_is_supported_evidence():
+    from agent.schemas import ToolResult
+
+    ev = Evidence()
+    ev.add(
+        ToolResult(
+            tool="k8s_restart_deployment",
+            request_id="r",
+            status="pending_confirmation",
+            data={"action_id": "f70b45649470", "deployment": "prediction-api"},
+            evidence_id="E-ac77da",
+        )
+    )
+    assert find_unsupported("Pending action f70b45649470 [E-ac77da]", ev) == []
+    assert "cafe1234" in find_unsupported("other id cafe1234", ev)

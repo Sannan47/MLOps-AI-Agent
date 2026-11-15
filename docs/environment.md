@@ -14,7 +14,7 @@ Host: Windows 10 Pro (10.0.19045). Everything below was run on this machine.
 | Apache Airflow | 3.0.6 (LocalExecutor, simple auth manager, REST API v2) |
 | PostgreSQL (Airflow) | 16 |
 | scikit-learn / pandas / FastAPI / pydantic | resolved in `uv.lock` |
-| LLM (agent) | Gemini via the OpenAI-compatible endpoint (`gemini-3.x-flash`) for the recorded conversations; Anthropic Claude supported through `LLM_PROVIDER=anthropic` (not exercised against the live API) |
+| LLM (agent) | Gemini via the OpenAI-compatible endpoint (`gemini-3.x-flash`) for the recorded conversations; Claude Haiku 5.5 via OpenRouter (`LLM_PROVIDER=openrouter`) for the failure B and C conversations; the native Anthropic client (`LLM_PROVIDER=anthropic`) is implemented but not exercised against the live API |
 
 Docker's disk image was moved to the E: drive (C: ran out of space).
 
