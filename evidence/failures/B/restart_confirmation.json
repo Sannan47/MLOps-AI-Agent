@@ -1,0 +1,30 @@
+{
+  "request": {
+    "tool": "k8s_restart_deployment",
+    "status": "pending_confirmation",
+    "data": {
+      "action_id": "a62da5c41a61",
+      "summary": "k8s_restart_deployment(namespace=mlops-app, deployment=prediction-api)",
+      "expires_at": "2026-11-15T08:19:10.765031+00:00",
+      "note": "NOT executed. The user must confirm this action."
+    },
+    "error": null,
+    "duration_ms": 0.68,
+    "evidence_id": "E-2e46aa",
+    "request_id": "fixB",
+    "timestamp": "2026-11-15T08:09:10.766034Z"
+  },
+  "confirmed": {
+    "tool": "k8s_restart_deployment",
+    "status": "ok",
+    "data": {
+      "deployment": "prediction-api",
+      "restarted_at": "2026-11-15T08:09:13.144019+00:00"
+    },
+    "error": null,
+    "duration_ms": 2432.03,
+    "evidence_id": "E-821215",
+    "request_id": "fixB",
+    "timestamp": "2026-11-15T08:09:13.198466Z"
+  }
+}

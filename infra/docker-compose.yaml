@@ -1,6 +1,7 @@
 # Airflow 3 (LocalExecutor) + MLflow tracking server. UNVERIFIED until Docker is installed.
 # Usage (from repo root): docker compose -f infra/docker-compose.yaml --env-file .env up -d --build
 x-airflow-common: &airflow-common
+  image: mlops-airflow:local
   build:
     context: ..
     dockerfile: infra/airflow.Dockerfile
@@ -14,6 +15,8 @@ x-airflow-common: &airflow-common
     AIRFLOW__API__SECRET_KEY: "${AIRFLOW_JWT_SECRET:-change-me-local-dev-only-0123456789}"
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
     MLFLOW_TRACKING_URI: http://mlflow:5000
+    MLFLOW_UV_AUTO_DETECT: "false"
+    MLFLOW_LOG_UV_FILES: "false"
     PROJECT_DIR: /opt/airflow/project
     PYTHONPATH: /opt/airflow/project
     AIRFLOW_USERNAME: "${AIRFLOW_USERNAME:-admin}"
@@ -44,12 +47,12 @@ services:
       retries: 5
 
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v3.1.0
+    image: ghcr.io/mlflow/mlflow:v3.18.0
     command: >
       mlflow server --host 0.0.0.0 --port 5000
       --backend-store-uri sqlite:////mlflow/mlflow.db
       --artifacts-destination /mlflow/artifacts --serve-artifacts
-      --allowed-hosts "*" --cors-allowed-origins "*"
+      --allowed-hosts mlflow:5000,localhost:5000,127.0.0.1:5000
     ports:
       - "5000:5000"
     volumes:
@@ -63,6 +66,8 @@ services:
       - |
         mkdir -p /opt/airflow/auth
         echo "{\"$${AIRFLOW_USERNAME}\": \"$${AIRFLOW_PASSWORD}\"}" > /opt/airflow/auth/passwords.json
+        chown -R 50000:0 /opt/airflow/auth
+        chmod 664 /opt/airflow/auth/passwords.json
         airflow db migrate
     user: "0:0"
 

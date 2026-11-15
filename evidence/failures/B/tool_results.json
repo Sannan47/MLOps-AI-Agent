@@ -1,0 +1,505 @@
+{
+  "k8s_find_unhealthy_pods": {
+    "tool": "k8s_find_unhealthy_pods",
+    "status": "ok",
+    "data": {
+      "unhealthy_pods": [
+        {
+          "name": "prediction-api-5b747db5b5-9qz4r",
+          "phase": "Running",
+          "ready": false,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 59.004821,
+          "containers": [
+            {
+              "name": "api",
+              "ready": false,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ],
+          "reasons": [
+            "not ready (phase=Running)"
+          ],
+          "events": [
+            {
+              "type": "Warning",
+              "reason": "Unhealthy",
+              "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+              "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+              "count": 5,
+              "last_seen": "2026-11-15 08:08:45+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Pulled",
+              "message": "Container image \"mlops-inference:1.0.0\" already present on machine and can be accessed by the pod",
+              "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:54+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Created",
+              "message": "Container created",
+              "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:54+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Started",
+              "message": "Container started",
+              "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:54+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Scheduled",
+              "message": "Successfully assigned mlops-app/prediction-api-5b747db5b5-9qz4r to mlops-control-plane",
+              "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:53+00:00"
+            }
+          ]
+        },
+        {
+          "name": "prediction-api-5b747db5b5-b5qpw",
+          "phase": "Running",
+          "ready": false,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 59.045875,
+          "containers": [
+            {
+              "name": "api",
+              "ready": false,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ],
+          "reasons": [
+            "not ready (phase=Running)"
+          ],
+          "events": [
+            {
+              "type": "Warning",
+              "reason": "Unhealthy",
+              "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+              "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+              "count": 5,
+              "last_seen": "2026-11-15 08:08:45+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Pulled",
+              "message": "Container image \"mlops-inference:1.0.0\" already present on machine and can be accessed by the pod",
+              "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:54+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Created",
+              "message": "Container created",
+              "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:54+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Started",
+              "message": "Container started",
+              "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:54+00:00"
+            },
+            {
+              "type": "Normal",
+              "reason": "Scheduled",
+              "message": "Successfully assigned mlops-app/prediction-api-5b747db5b5-b5qpw to mlops-control-plane",
+              "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+              "count": 1,
+              "last_seen": "2026-11-15 08:07:53+00:00"
+            }
+          ]
+        }
+      ],
+      "total_pods": 3
+    },
+    "error": null,
+    "duration_ms": 2423.58,
+    "evidence_id": "E-2d7bf9",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:08:52.067639Z"
+  },
+  "k8s_get_deployed_version": {
+    "tool": "k8s_get_deployed_version",
+    "status": "ok",
+    "data": {
+      "deployment": "prediction-api",
+      "images": [
+        "mlops-inference:1.0.0"
+      ],
+      "image_tags": [
+        "1.0.0"
+      ],
+      "version_label": "1.0.0",
+      "configmap": {
+        "APP_VERSION": "1.0.0",
+        "MODEL_VERSION": "1",
+        "MODEL_PATH": "/models/missing.joblib"
+      },
+      "ready_replicas": 1,
+      "desired_replicas": 2
+    },
+    "error": null,
+    "duration_ms": 31.89,
+    "evidence_id": "E-b111f8",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:08:52.100431Z"
+  },
+  "k8s_list_deployments": {
+    "tool": "k8s_list_deployments",
+    "status": "ok",
+    "data": [
+      {
+        "name": "prediction-api",
+        "desired": 2,
+        "ready": 1,
+        "available": 1,
+        "images": [
+          "mlops-inference:1.0.0"
+        ],
+        "version_label": "1.0.0",
+        "conditions": [
+          {
+            "type": "Available",
+            "status": "True",
+            "reason": "MinimumReplicasAvailable"
+          },
+          {
+            "type": "Progressing",
+            "status": "True",
+            "reason": "ReplicaSetUpdated"
+          }
+        ]
+      }
+    ],
+    "error": null,
+    "duration_ms": 42.87,
+    "evidence_id": "E-5ad2b8",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:08:52.143726Z"
+  },
+  "k8s_list_services": {
+    "tool": "k8s_list_services",
+    "status": "ok",
+    "data": [
+      {
+        "name": "prediction-api",
+        "type": "ClusterIP",
+        "cluster_ip": "10.96.173.55",
+        "ports": [
+          {
+            "port": 80,
+            "target_port": "8000"
+          }
+        ],
+        "selector": {
+          "app.kubernetes.io/name": "prediction-api"
+        },
+        "ready_endpoints": 1,
+        "not_ready_endpoints": 2,
+        "healthy_backends": true
+      }
+    ],
+    "error": null,
+    "duration_ms": 24.32,
+    "evidence_id": "E-a70a95",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:08:52.168675Z"
+  },
+  "k8s_get_events": {
+    "tool": "k8s_get_events",
+    "status": "ok",
+    "data": [
+      {
+        "type": "Warning",
+        "reason": "Unhealthy",
+        "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+        "count": 5,
+        "last_seen": "2026-11-15 08:08:45+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Unhealthy",
+        "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+        "count": 5,
+        "last_seen": "2026-11-15 08:08:45+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Failed",
+        "message": "Error: ImagePullBackOff",
+        "object": "Pod/prediction-api-777cb8848-bchks",
+        "count": 3,
+        "last_seen": "2026-11-15 08:07:37+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Failed",
+        "message": "Error: ImagePullBackOff",
+        "object": "Pod/prediction-api-777cb8848-hknrp",
+        "count": 3,
+        "last_seen": "2026-11-15 08:07:33+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Failed",
+        "message": "Failed to pull image \"mlops-inference:9.9.9-missing\": failed to pull and unpack image \"docker.io/library/mlops-inference:9.9.9-missing\": failed to resolve reference \"docker.io/library/mlops-inference:9.9.9-missing\": pull access denied, repository does not exist or may require authorization: server m",
+        "object": "Pod/prediction-api-777cb8848-bchks",
+        "count": 3,
+        "last_seen": "2026-11-15 08:07:26+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Failed",
+        "message": "Error: ErrImagePull",
+        "object": "Pod/prediction-api-777cb8848-bchks",
+        "count": 3,
+        "last_seen": "2026-11-15 08:07:26+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Failed",
+        "message": "Failed to pull image \"mlops-inference:9.9.9-missing\": failed to pull and unpack image \"docker.io/library/mlops-inference:9.9.9-missing\": failed to resolve reference \"docker.io/library/mlops-inference:9.9.9-missing\": pull access denied, repository does not exist or may require authorization: server m",
+        "object": "Pod/prediction-api-777cb8848-hknrp",
+        "count": 3,
+        "last_seen": "2026-11-15 08:07:21+00:00"
+      },
+      {
+        "type": "Warning",
+        "reason": "Failed",
+        "message": "Error: ErrImagePull",
+        "object": "Pod/prediction-api-777cb8848-hknrp",
+        "count": 3,
+        "last_seen": "2026-11-15 08:07:21+00:00"
+      }
+    ],
+    "error": null,
+    "duration_ms": 20.06,
+    "evidence_id": "E-d4561d",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:08:52.188905Z"
+  },
+  "k8s_diagnose_service": {
+    "tool": "k8s_diagnose_service",
+    "status": "ok",
+    "data": {
+      "service": {
+        "name": "prediction-api",
+        "type": "ClusterIP",
+        "cluster_ip": "10.96.173.55",
+        "ports": [
+          {
+            "port": 80,
+            "target_port": "8000"
+          }
+        ],
+        "selector": {
+          "app.kubernetes.io/name": "prediction-api"
+        },
+        "ready_endpoints": 1,
+        "not_ready_endpoints": 2,
+        "healthy_backends": true
+      },
+      "pods": [
+        {
+          "name": "prediction-api-56cd5bfcc-w2f4d",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 219.216796,
+          "containers": [
+            {
+              "name": "api",
+              "ready": true,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ]
+        },
+        {
+          "name": "prediction-api-5b747db5b5-9qz4r",
+          "phase": "Running",
+          "ready": false,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 59.216796,
+          "containers": [
+            {
+              "name": "api",
+              "ready": false,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ]
+        },
+        {
+          "name": "prediction-api-5b747db5b5-b5qpw",
+          "phase": "Running",
+          "ready": false,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 59.216796,
+          "containers": [
+            {
+              "name": "api",
+              "ready": false,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "Warning",
+          "reason": "Unhealthy",
+          "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+          "object": "Pod/prediction-api-5b747db5b5-9qz4r",
+          "count": 5,
+          "last_seen": "2026-11-15 08:08:45+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Unhealthy",
+          "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+          "object": "Pod/prediction-api-5b747db5b5-b5qpw",
+          "count": 5,
+          "last_seen": "2026-11-15 08:08:45+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Failed",
+          "message": "Error: ImagePullBackOff",
+          "object": "Pod/prediction-api-777cb8848-bchks",
+          "count": 3,
+          "last_seen": "2026-11-15 08:07:37+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Failed",
+          "message": "Error: ImagePullBackOff",
+          "object": "Pod/prediction-api-777cb8848-hknrp",
+          "count": 3,
+          "last_seen": "2026-11-15 08:07:33+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Failed",
+          "message": "Failed to pull image \"mlops-inference:9.9.9-missing\": failed to pull and unpack image \"docker.io/library/mlops-inference:9.9.9-missing\": failed to resolve reference \"docker.io/library/mlops-inference:9.9.9-missing\": pull access denied, repository does not exist or may require authorization: server m",
+          "object": "Pod/prediction-api-777cb8848-bchks",
+          "count": 3,
+          "last_seen": "2026-11-15 08:07:26+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Failed",
+          "message": "Error: ErrImagePull",
+          "object": "Pod/prediction-api-777cb8848-bchks",
+          "count": 3,
+          "last_seen": "2026-11-15 08:07:26+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Failed",
+          "message": "Failed to pull image \"mlops-inference:9.9.9-missing\": failed to pull and unpack image \"docker.io/library/mlops-inference:9.9.9-missing\": failed to resolve reference \"docker.io/library/mlops-inference:9.9.9-missing\": pull access denied, repository does not exist or may require authorization: server m",
+          "object": "Pod/prediction-api-777cb8848-hknrp",
+          "count": 3,
+          "last_seen": "2026-11-15 08:07:21+00:00"
+        },
+        {
+          "type": "Warning",
+          "reason": "Failed",
+          "message": "Error: ErrImagePull",
+          "object": "Pod/prediction-api-777cb8848-hknrp",
+          "count": 3,
+          "last_seen": "2026-11-15 08:07:21+00:00"
+        }
+      ],
+      "logs": {
+        "prediction-api-5b747db5b5-9qz4r": [
+          "{\"time\":\"2026-11-15 08:07:57,376\",\"level\":\"ERROR\",\"logger\":\"serving\",\"message\":\"model load failed: FileNotFoundError: [Errno 2] No such file or directory: '/models/missing.joblib'\"}",
+          "INFO:     Started server process [1]",
+          "INFO:     Waiting for application startup.",
+          "INFO:     Application startup complete.",
+          "INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)",
+          "INFO:     10.244.0.1:45424 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:41698 - \"GET /health/live HTTP/1.1\" 200 OK",
+          "INFO:     10.244.0.1:41702 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:41592 - \"GET /health/live HTTP/1.1\" 200 OK",
+          "INFO:     10.244.0.1:41594 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:47440 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:36576 - \"GET /health/live HTTP/1.1\" 200 OK",
+          "INFO:     10.244.0.1:36582 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable"
+        ],
+        "prediction-api-5b747db5b5-b5qpw": [
+          "{\"time\":\"2026-11-15 08:07:57,412\",\"level\":\"ERROR\",\"logger\":\"serving\",\"message\":\"model load failed: FileNotFoundError: [Errno 2] No such file or directory: '/models/missing.joblib'\"}",
+          "INFO:     Started server process [1]",
+          "INFO:     Waiting for application startup.",
+          "INFO:     Application startup complete.",
+          "INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)",
+          "INFO:     10.244.0.1:51228 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:51364 - \"GET /health/live HTTP/1.1\" 200 OK",
+          "INFO:     10.244.0.1:51380 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:33184 - \"GET /health/live HTTP/1.1\" 200 OK",
+          "INFO:     10.244.0.1:33192 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:59396 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable",
+          "INFO:     10.244.0.1:40472 - \"GET /health/live HTTP/1.1\" 200 OK",
+          "INFO:     10.244.0.1:40474 - \"GET /health/ready HTTP/1.1\" 503 Service Unavailable"
+        ]
+      },
+      "findings": [
+        "pod prediction-api-5b747db5b5-9qz4r: not ready (phase=Running)",
+        "pod prediction-api-5b747db5b5-b5qpw: not ready (phase=Running)",
+        "event Unhealthy on Pod/prediction-api-5b747db5b5-9qz4r: Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "event Unhealthy on Pod/prediction-api-5b747db5b5-b5qpw: Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "event Failed on Pod/prediction-api-777cb8848-bchks: Error: ImagePullBackOff",
+        "event Failed on Pod/prediction-api-777cb8848-hknrp: Error: ImagePullBackOff",
+        "event Failed on Pod/prediction-api-777cb8848-bchks: Failed to pull image \"mlops-inference:9.9.9-missing\": failed to pull and unpack image \"docker.io/library/mlops-inference:9.9.9-missing\": failed to resolve reference \"docker.io/library/mlops-inference:9.9.9-missing\": pull access denied, repository does not exist or may require authorization: server m"
+      ]
+    },
+    "error": null,
+    "duration_ms": 66.24,
+    "evidence_id": "E-ae58ae",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:08:52.255525Z"
+  }
+}

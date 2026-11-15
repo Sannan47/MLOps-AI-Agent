@@ -1,0 +1,39 @@
+{
+  "dag_run_id": "manual__2026-11-15T07:58:44.889698+00:00_d2m6Po72",
+  "state": "success",
+  "start_date": "2026-11-15T07:58:44.947317Z",
+  "end_date": "2026-11-15T07:59:15.069341Z",
+  "logical_date": null,
+  "run_type": "manual",
+  "conf": {
+    "dataset_rev": "data-v1.0"
+  },
+  "finished": true,
+  "tasks": [
+    {
+      "task_id": "validate_dataset",
+      "state": "success",
+      "try_number": 1
+    },
+    {
+      "task_id": "preprocess_data",
+      "state": "success",
+      "try_number": 1
+    },
+    {
+      "task_id": "train_model",
+      "state": "success",
+      "try_number": 1
+    },
+    {
+      "task_id": "evaluate_and_log_mlflow",
+      "state": "success",
+      "try_number": 1
+    },
+    {
+      "task_id": "apply_quality_gate",
+      "state": "success",
+      "try_number": 1
+    }
+  ]
+}

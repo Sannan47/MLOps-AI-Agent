@@ -13,6 +13,10 @@ class Settings(BaseSettings):
 
     anthropic_api_key: str = ""
     agent_model: str = "claude-opus-5-5"
+    llm_provider: str = "anthropic"  # anthropic | gemini
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-3.5-flash"
+    gemini_base_url: str = "https://generativelanguage.googleapis.com/v1beta/openai"
     mlflow_tracking_uri: str = "http://localhost:5000"
     airflow_base_url: str = "http://localhost:8080"
     airflow_username: str = ""

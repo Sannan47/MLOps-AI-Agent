@@ -177,6 +177,21 @@ def get_failed_tasks(inp: FailedTasksInput) -> dict:
     }
 
 
+def _log_lines(content) -> list[str]:
+    """Flatten Airflow 3 structured log entries (incl. exception details) into text lines."""
+    if not isinstance(content, list):
+        return str(content).splitlines()
+    lines: list[str] = []
+    for c in content:
+        if isinstance(c, str):
+            lines.append(c)
+            continue
+        lines.append(f"{c.get('level', '').upper()} {c.get('event', '')}".strip())
+        for ed in c.get("error_detail") or []:
+            lines.append(f"{ed.get('exc_type')}: {ed.get('exc_value')}")
+    return lines
+
+
 def extract_diagnostics(lines: list[str]) -> list[str]:
     return [ln.strip() for ln in lines if ERROR_RE.search(ln)][:20]
 
@@ -194,10 +209,7 @@ def get_task_logs(inp: TaskLogsInput) -> dict:
         f"/logs/{inp.try_number}",
     )
     content = d.get("content", d.get("text", ""))
-    if isinstance(content, list):
-        lines = [c if isinstance(c, str) else str(c.get("event", c)) for c in content]
-    else:
-        lines = str(content).splitlines()
+    lines = _log_lines(content)
     return {
         "task_id": inp.task_id,
         "try_number": inp.try_number,

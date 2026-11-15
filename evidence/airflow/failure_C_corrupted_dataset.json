@@ -1,0 +1,114 @@
+{
+  "conf": {
+    "dataset_path": "data/raw/corrupted.csv"
+  },
+  "run": {
+    "dag_run_id": "manual__2026-11-15T07:56:56.959170+00:00_vUo2HRUB",
+    "state": "failed",
+    "start_date": "2026-11-15T07:56:57.335822Z",
+    "end_date": "2026-11-15T07:57:03.247379Z",
+    "logical_date": null,
+    "run_type": "manual",
+    "conf": {
+      "dataset_path": "data/raw/corrupted.csv"
+    },
+    "finished": true,
+    "tasks": [
+      {
+        "task_id": "validate_dataset",
+        "state": "failed",
+        "try_number": 1
+      },
+      {
+        "task_id": "preprocess_data",
+        "state": "upstream_failed",
+        "try_number": 0
+      },
+      {
+        "task_id": "train_model",
+        "state": "upstream_failed",
+        "try_number": 0
+      },
+      {
+        "task_id": "evaluate_and_log_mlflow",
+        "state": "upstream_failed",
+        "try_number": 0
+      },
+      {
+        "task_id": "apply_quality_gate",
+        "state": "upstream_failed",
+        "try_number": 0
+      }
+    ]
+  },
+  "failed_tasks": {
+    "run_id": "manual__2026-11-15T07:56:56.959170+00:00_vUo2HRUB",
+    "failed_tasks": [
+      {
+        "task_id": "validate_dataset",
+        "state": "failed",
+        "try_number": 1
+      },
+      {
+        "task_id": "preprocess_data",
+        "state": "upstream_failed",
+        "try_number": 0
+      },
+      {
+        "task_id": "train_model",
+        "state": "upstream_failed",
+        "try_number": 0
+      },
+      {
+        "task_id": "evaluate_and_log_mlflow",
+        "state": "upstream_failed",
+        "try_number": 0
+      },
+      {
+        "task_id": "apply_quality_gate",
+        "state": "upstream_failed",
+        "try_number": 0
+      }
+    ]
+  },
+  "logs": {
+    "validate_dataset": {
+      "task_id": "validate_dataset",
+      "try_number": 1,
+      "log_tail": [
+        "::group::Log message source details",
+        "::endgroup::",
+        "INFO DAG bundles loaded: dags-folder",
+        "INFO Filling up the DagBag from /opt/airflow/dags/training_pipeline.py",
+        "ERROR validation failed for /opt/airflow/project/data/raw/corrupted.csv: DataValidationError: column(s) ['label'] missing",
+        "ERROR Task failed with exception",
+        "AirflowFailException: DataValidationError: column(s) ['label'] missing",
+        "DataValidationError: DataValidationError: column(s) ['label'] missing"
+      ],
+      "diagnostics": [
+        "ERROR validation failed for /opt/airflow/project/data/raw/corrupted.csv: DataValidationError: column(s) ['label'] missing",
+        "ERROR Task failed with exception",
+        "AirflowFailException: DataValidationError: column(s) ['label'] missing",
+        "DataValidationError: DataValidationError: column(s) ['label'] missing"
+      ]
+    }
+  },
+  "registry_before": [
+    [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "1"
+  ],
+  "registry_after": [
+    [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "1"
+  ]
+}

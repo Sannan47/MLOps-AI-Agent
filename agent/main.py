@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from agent.llm import AnthropicLLM, LLMUnavailable
+from agent.llm import LLMUnavailable, make_llm
 from agent.logging_utils import new_request_id
 from agent.orchestrator import Agent
 from agent.registry import registry
@@ -16,7 +16,7 @@ def main(argv: list[str] | None = None, llm=None) -> int:
     p.add_argument("question")
     a = p.parse_args(argv)
     try:
-        llm = llm or AnthropicLLM()
+        llm = llm or make_llm()
     except LLMUnavailable as e:
         print(f"LLM unavailable: {e}", file=sys.stderr)
         return 2

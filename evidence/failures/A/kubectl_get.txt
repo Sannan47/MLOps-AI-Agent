@@ -1,0 +1,23 @@
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME                                 READY   STATUS         RESTARTS   AGE
+pod/prediction-api-56cd5bfcc-w2f4d   1/1     Running        0          2m28s
+pod/prediction-api-777cb8848-bchks   0/1     ErrImagePull   0          61s
+pod/prediction-api-777cb8848-hknrp   0/1     ErrImagePull   0          61s
+
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/prediction-api   ClusterIP   10.96.173.55   <none>        80/TCP    2m34s
+
+NAME                       ENDPOINTS         AGE
+endpoints/prediction-api   10.244.0.6:8000   2m34s
+61s         Normal    SuccessfulCreate    replicaset/prediction-api-777cb8848   Created pod: prediction-api-777cb8848-bchks
+60s         Normal    Scheduled           pod/prediction-api-777cb8848-hknrp    Successfully assigned mlops-app/prediction-api-777cb8848-hknrp to mlops-control-plane
+21s         Normal    Pulling             pod/prediction-api-777cb8848-hknrp    Pulling image "mlops-inference:9.9.9-missing"
+20s         Warning   Failed              pod/prediction-api-777cb8848-hknrp    Error: ErrImagePull
+20s         Warning   Failed              pod/prediction-api-777cb8848-hknrp    Failed to pull image "mlops-inference:9.9.9-missing": failed to pull and unpack image "docker.io/library/mlops-inference:9.9.9-missing": failed to resolve reference "docker.io/library/mlops-inference:9.9.9-missing": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+16s         Normal    Pulling             pod/prediction-api-777cb8848-bchks    Pulling image "mlops-inference:9.9.9-missing"
+15s         Warning   Failed              pod/prediction-api-777cb8848-bchks    Error: ErrImagePull
+15s         Warning   Failed              pod/prediction-api-777cb8848-bchks    Failed to pull image "mlops-inference:9.9.9-missing": failed to pull and unpack image "docker.io/library/mlops-inference:9.9.9-missing": failed to resolve reference "docker.io/library/mlops-inference:9.9.9-missing": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+8s          Normal    BackOff             pod/prediction-api-777cb8848-hknrp    Back-off pulling image "mlops-inference:9.9.9-missing"
+8s          Warning   Failed              pod/prediction-api-777cb8848-hknrp    Error: ImagePullBackOff
+4s          Warning   Failed              pod/prediction-api-777cb8848-bchks    Error: ImagePullBackOff
+4s          Normal    BackOff             pod/prediction-api-777cb8848-bchks    Back-off pulling image "mlops-inference:9.9.9-missing"

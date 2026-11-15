@@ -238,3 +238,31 @@ def test_parse_sections():
         "**Known facts**\n- a [E-abcdef]\n**Uncertainties**\n- b\n**Recommended actions**\n- c"
     )
     assert facts[0].evidence_ids == ["E-abcdef"] and unc == ["b"] and rec == ["c"]
+
+
+def test_removed_claims_note_is_merged_into_existing_uncertainties():
+    reg, _ = scenario_registry(mlflow_ok=True)
+    bad = (
+        "**Known facts**\n- F1 is 0.55 [E-abcdef]\n**Uncertainties**\n- none\n"
+        "**Recommended actions**\n- none"
+    )
+    llm = FakeLLM([[("mlflow_find_best_run", {})], bad, bad])
+    resp = Agent(llm, reg).run("best?", "req9")
+    assert resp.answer.count("**Uncertainties**") == 1
+    assert "removed" in resp.answer and "0.55" not in resp.answer
+
+
+def test_multi_id_citations_are_not_flagged_as_numbers():
+    reg, _ = scenario_registry()
+    ev = Evidence()
+    a = reg.execute("mlflow_find_best_run", {}, "r")
+    b = reg.execute("dvc_list_versions", {}, "r")
+    ev.add(a)
+    ev.add(b)
+    text = (
+        f"Best F1 0.9412 on data-v1.1 [{a.evidence_id}, {b.evidence_id}] and again {b.evidence_id}"
+    )
+    assert find_unsupported(text, ev) == []
+    assert "[E-ffffff]" in find_unsupported(f"x [{a.evidence_id}; E-ffffff]", ev)
+    facts, _, _ = parse_sections(f"**Known facts**\n- ok [{a.evidence_id}, {b.evidence_id}]")
+    assert facts[0].evidence_ids == [a.evidence_id, b.evidence_id]

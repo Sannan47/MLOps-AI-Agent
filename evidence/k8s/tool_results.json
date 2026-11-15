@@ -1,0 +1,185 @@
+{
+  "k8s_find_unhealthy_pods": {
+    "tool": "k8s_find_unhealthy_pods",
+    "status": "ok",
+    "data": {
+      "unhealthy_pods": [],
+      "total_pods": 2
+    },
+    "error": null,
+    "duration_ms": 6478.52,
+    "evidence_id": "E-e24f5f",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:06:34.129888Z"
+  },
+  "k8s_get_deployed_version": {
+    "tool": "k8s_get_deployed_version",
+    "status": "ok",
+    "data": {
+      "deployment": "prediction-api",
+      "images": [
+        "mlops-inference:1.0.0"
+      ],
+      "image_tags": [
+        "1.0.0"
+      ],
+      "version_label": "1.0.0",
+      "configmap": {
+        "APP_VERSION": "1.0.0",
+        "MODEL_VERSION": "1",
+        "MODEL_PATH": "/app/serving/model/model.joblib"
+      },
+      "ready_replicas": 2,
+      "desired_replicas": 2
+    },
+    "error": null,
+    "duration_ms": 33.18,
+    "evidence_id": "E-87b90f",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:06:34.164283Z"
+  },
+  "k8s_list_deployments": {
+    "tool": "k8s_list_deployments",
+    "status": "ok",
+    "data": [
+      {
+        "name": "prediction-api",
+        "desired": 2,
+        "ready": 2,
+        "available": 2,
+        "images": [
+          "mlops-inference:1.0.0"
+        ],
+        "version_label": "1.0.0",
+        "conditions": [
+          {
+            "type": "Available",
+            "status": "True",
+            "reason": "MinimumReplicasAvailable"
+          },
+          {
+            "type": "Progressing",
+            "status": "True",
+            "reason": "NewReplicaSetAvailable"
+          }
+        ]
+      }
+    ],
+    "error": null,
+    "duration_ms": 20.18,
+    "evidence_id": "E-cd898f",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:06:34.185221Z"
+  },
+  "k8s_list_services": {
+    "tool": "k8s_list_services",
+    "status": "ok",
+    "data": [
+      {
+        "name": "prediction-api",
+        "type": "ClusterIP",
+        "cluster_ip": "10.96.173.55",
+        "ports": [
+          {
+            "port": 80,
+            "target_port": "8000"
+          }
+        ],
+        "selector": {
+          "app.kubernetes.io/name": "prediction-api"
+        },
+        "ready_endpoints": 2,
+        "not_ready_endpoints": 0,
+        "healthy_backends": true
+      }
+    ],
+    "error": null,
+    "duration_ms": 26.51,
+    "evidence_id": "E-c47fa3",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:06:34.212162Z"
+  },
+  "k8s_get_events": {
+    "tool": "k8s_get_events",
+    "status": "ok",
+    "data": [],
+    "error": null,
+    "duration_ms": 43.53,
+    "evidence_id": "E-b7412d",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:06:34.255703Z"
+  },
+  "k8s_diagnose_service": {
+    "tool": "k8s_diagnose_service",
+    "status": "ok",
+    "data": {
+      "service": {
+        "name": "prediction-api",
+        "type": "ClusterIP",
+        "cluster_ip": "10.96.173.55",
+        "ports": [
+          {
+            "port": 80,
+            "target_port": "8000"
+          }
+        ],
+        "selector": {
+          "app.kubernetes.io/name": "prediction-api"
+        },
+        "ready_endpoints": 2,
+        "not_ready_endpoints": 0,
+        "healthy_backends": true
+      },
+      "pods": [
+        {
+          "name": "prediction-api-56cd5bfcc-cvvxz",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 81.287477,
+          "containers": [
+            {
+              "name": "api",
+              "ready": true,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ]
+        },
+        {
+          "name": "prediction-api-56cd5bfcc-w2f4d",
+          "phase": "Running",
+          "ready": true,
+          "restarts": 0,
+          "node": "mlops-control-plane",
+          "age_seconds": 81.287477,
+          "containers": [
+            {
+              "name": "api",
+              "ready": true,
+              "restart_count": 0,
+              "image": "docker.io/library/mlops-inference:1.0.0",
+              "waiting_reason": null,
+              "terminated_reason": null,
+              "last_terminated_reason": null,
+              "last_exit_code": null
+            }
+          ]
+        }
+      ],
+      "events": [],
+      "logs": {},
+      "findings": []
+    },
+    "error": null,
+    "duration_ms": 46.77,
+    "evidence_id": "E-beb19f",
+    "request_id": "evidence",
+    "timestamp": "2026-11-15T08:06:34.302472Z"
+  }
+}
