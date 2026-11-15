@@ -49,6 +49,9 @@ def train(
         if validation_report and Path(validation_report).exists():
             mlflow.log_artifact(str(validation_report))
         mlflow.log_artifact(str(model_out), artifact_path="model_file")
+        scaler = Path(processed) / "scaler.joblib"
+        if scaler.exists():
+            mlflow.log_artifact(str(scaler), artifact_path="scaler")
         mlflow.sklearn.log_model(model, name="model")
         return run.info.run_id
 

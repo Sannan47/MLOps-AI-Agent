@@ -17,3 +17,4 @@ serving/model/
 /models/
 /validation_report.json
 /confusion_matrix.png
+data/raw/corrupted.csv
