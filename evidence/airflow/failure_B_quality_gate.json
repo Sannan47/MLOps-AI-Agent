@@ -1,0 +1,96 @@
+{
+  "conf": {
+    "dataset_rev": "data-v1.1",
+    "min_f1": 0.999
+  },
+  "run": {
+    "dag_run_id": "manual__2026-11-15T07:57:07.609736+00:00_bDzCwcjT",
+    "state": "failed",
+    "start_date": "2026-11-15T07:57:08.380668Z",
+    "end_date": "2026-11-15T07:57:36.493216Z",
+    "logical_date": null,
+    "run_type": "manual",
+    "conf": {
+      "min_f1": 0.999,
+      "dataset_rev": "data-v1.1"
+    },
+    "finished": true,
+    "tasks": [
+      {
+        "task_id": "validate_dataset",
+        "state": "success",
+        "try_number": 1
+      },
+      {
+        "task_id": "preprocess_data",
+        "state": "success",
+        "try_number": 1
+      },
+      {
+        "task_id": "train_model",
+        "state": "success",
+        "try_number": 1
+      },
+      {
+        "task_id": "evaluate_and_log_mlflow",
+        "state": "success",
+        "try_number": 1
+      },
+      {
+        "task_id": "apply_quality_gate",
+        "state": "failed",
+        "try_number": 1
+      }
+    ]
+  },
+  "failed_tasks": {
+    "run_id": "manual__2026-11-15T07:57:07.609736+00:00_bDzCwcjT",
+    "failed_tasks": [
+      {
+        "task_id": "apply_quality_gate",
+        "state": "failed",
+        "try_number": 1
+      }
+    ]
+  },
+  "logs": {
+    "apply_quality_gate": {
+      "task_id": "apply_quality_gate",
+      "try_number": 1,
+      "log_tail": [
+        "::group::Log message source details",
+        "::endgroup::",
+        "INFO DAG bundles loaded: dags-folder",
+        "INFO Filling up the DagBag from /opt/airflow/dags/training_pipeline.py",
+        "ERROR quality gate failed mlflow_run_id=bf8eea983f6549eb8ac9fc2e4e120d2e: QualityGateError: f1 0.8980 < min_f1 0.999; f1 0.8980 regressed vs champion 0.9244 by more than 0.02",
+        "ERROR Task failed with exception",
+        "AirflowFailException: QualityGateError: f1 0.8980 < min_f1 0.999; f1 0.8980 regressed vs champion 0.9244 by more than 0.02",
+        "QualityGateError: QualityGateError: f1 0.8980 < min_f1 0.999; f1 0.8980 regressed vs champion 0.9244 by more than 0.02"
+      ],
+      "diagnostics": [
+        "ERROR quality gate failed mlflow_run_id=bf8eea983f6549eb8ac9fc2e4e120d2e: QualityGateError: f1 0.8980 < min_f1 0.999; f1 0.8980 regressed vs champion 0.9244 by more than 0.02",
+        "ERROR Task failed with exception",
+        "AirflowFailException: QualityGateError: f1 0.8980 < min_f1 0.999; f1 0.8980 regressed vs champion 0.9244 by more than 0.02",
+        "QualityGateError: QualityGateError: f1 0.8980 < min_f1 0.999; f1 0.8980 regressed vs champion 0.9244 by more than 0.02"
+      ]
+    }
+  },
+  "registry_before": [
+    [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "1"
+  ],
+  "registry_after": [
+    [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "1"
+  ]
+}

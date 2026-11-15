@@ -143,3 +143,18 @@ def test_airflow_wait_for_dag_run_polls_until_terminal(monkeypatch):
     )
     res = registry.execute("airflow_wait_for_dag_run", {"dag_id": d, "run_id": "r1"}, "r")
     assert res.status == "ok" and res.data["state"] == "success" and res.data["finished"]
+
+
+def test_airflow_structured_log_exception_detail_is_extracted():
+    lines = airflow_tools._log_lines(
+        [
+            {"event": "starting", "level": "info"},
+            {
+                "event": "Task failed with exception",
+                "level": "error",
+                "error_detail": [{"exc_type": "MlflowException", "exc_value": "403 Invalid Host"}],
+            },
+        ]
+    )
+    diag = airflow_tools.extract_diagnostics(lines)
+    assert any("MlflowException: 403 Invalid Host" in d for d in diag)

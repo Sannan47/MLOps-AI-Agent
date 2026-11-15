@@ -52,7 +52,7 @@ def train(
         scaler = Path(processed) / "scaler.joblib"
         if scaler.exists():
             mlflow.log_artifact(str(scaler), artifact_path="scaler")
-        mlflow.sklearn.log_model(model, name="model")
+        mlflow.sklearn.log_model(model, name="model", serialization_format="cloudpickle")
         return run.info.run_id
 
 

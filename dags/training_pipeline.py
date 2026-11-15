@@ -105,6 +105,12 @@ def ml_training_pipeline():
         ctx = get_current_context()
         os.environ["PIPELINE_TRIGGER"] = "airflow"
         os.environ["AIRFLOW_DAG_RUN_ID"] = ctx["run_id"]
+        # record the dataset revision actually trained on, not the workspace copy
+        rev = ctx["params"].get("dataset_rev", "HEAD")
+        if rev != "HEAD" and not ctx["params"].get("dataset_path"):
+            os.environ["DATA_REV"] = rev
+        else:
+            os.environ.pop("DATA_REV", None)
         os.chdir(PROJECT)
         run_id = train(
             PROJECT / "data/processed",
@@ -116,7 +122,7 @@ def ml_training_pipeline():
         return run_id
 
     @task
-    def evaluate_and_log_mlflow(run_id: str) -> str:
+    def evaluate_and_log_mlflow(mlflow_run_id: str) -> str:
         from training.common import load_params
         from training.evaluate import evaluate
 
@@ -124,27 +130,27 @@ def ml_training_pipeline():
         m = evaluate(
             PROJECT / "data/processed",
             PROJECT / "models/model.joblib",
-            run_id,
+            mlflow_run_id,
             load_params(),
             PROJECT / "metrics.json",
         )
-        log.info("evaluated run_id=%s metrics=%s", run_id, m)
-        return run_id
+        log.info("evaluated mlflow_run_id=%s metrics=%s", mlflow_run_id, m)
+        return mlflow_run_id
 
     @task
-    def apply_quality_gate(run_id: str) -> dict:
+    def apply_quality_gate(mlflow_run_id: str) -> dict:
         from training.common import QualityGateError, load_params
         from training.quality_gate import apply_gate
 
         ctx = get_current_context()
         min_f1 = float(ctx["params"].get("min_f1", 0.90))
         try:
-            res = apply_gate(run_id, load_params(), min_f1=min_f1)
+            res = apply_gate(mlflow_run_id, load_params(), min_f1=min_f1)
         except QualityGateError as e:  # deterministic: fail immediately, no alias set
-            log.error("quality gate failed run_id=%s: %s", run_id, e)
+            log.error("quality gate failed mlflow_run_id=%s: %s", mlflow_run_id, e)
             raise AirflowFailException(str(e)) from e
-        log.info("quality gate passed run_id=%s result=%s", run_id, res)
-        return {"run_id": run_id, **{k: str(v) for k, v in res.items()}}
+        log.info("quality gate passed mlflow_run_id=%s result=%s", mlflow_run_id, res)
+        return {"mlflow_run_id": mlflow_run_id, **{k: str(v) for k, v in res.items()}}
 
     path = validate_dataset()
     pre = preprocess_data(path)
