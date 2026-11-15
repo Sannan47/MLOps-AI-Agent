@@ -18,3 +18,5 @@ serving/model/
 /validation_report.json
 /confusion_matrix.png
 data/raw/corrupted.csv
+CLAUDE.md
+PLAN.md
