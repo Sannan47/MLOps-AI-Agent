@@ -179,3 +179,15 @@ def test_k8s_diagnose_service_flags_zero_endpoints():
     res = run("k8s_diagnose_service", {}, (core, apps))
     text = " ".join(res.data["findings"])
     assert "0 ready endpoints" in text and "ImagePullBackOff" in text and "Failed to pull" in text
+
+
+import pytest  # noqa: E402
+
+
+@pytest.mark.integration
+def test_integration_live_cluster_healthy_and_version():
+    healthy = registry.execute("k8s_find_unhealthy_pods", {}, "r")
+    assert healthy.status == "ok" and healthy.data["unhealthy_pods"] == []
+    ver = registry.execute("k8s_get_deployed_version", {}, "r")
+    assert ver.data["image_tags"] == ["1.0.0"]
+    assert registry.execute("k8s_list_pods", {"namespace": "kube-system"}, "r").status == "rejected"

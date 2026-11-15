@@ -1,0 +1,6 @@
+can-i delete pods -n mlops-app           -> no
+can-i list pods -n default               -> no
+can-i list pods -n mlops-app             -> yes
+can-i patch deployments -n mlops-app     -> yes
+can-i get pods/log -n mlops-app          -> yes
+can-i create deployments -n mlops-app    -> no

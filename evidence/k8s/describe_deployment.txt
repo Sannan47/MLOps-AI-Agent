@@ -1,0 +1,55 @@
+Name:                   prediction-api
+Namespace:              mlops-app
+CreationTimestamp:      Sun, 15 Nov 2026 13:05:13 +0500
+Labels:                 app.kubernetes.io/name=prediction-api
+                        app.kubernetes.io/version=1.0.0
+Annotations:            deployment.kubernetes.io/revision: 5
+Selector:               app.kubernetes.io/name=prediction-api
+Replicas:               2 desired | 2 updated | 2 total | 2 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  1 max unavailable, 1 max surge
+Pod Template:
+  Labels:       app.kubernetes.io/name=prediction-api
+                app.kubernetes.io/version=1.0.0
+  Annotations:  kubectl.kubernetes.io/restartedAt: 2026-11-15T08:09:13.144019+00:00
+  Containers:
+   api:
+    Image:      mlops-inference:1.0.0
+    Port:       8000/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     500m
+      memory:  512Mi
+    Requests:
+      cpu:      100m
+      memory:   256Mi
+    Liveness:   http-get http://:8000/health/live delay=10s timeout=1s period=15s successThreshold=1 failureThreshold=3
+    Readiness:  http-get http://:8000/health/ready delay=5s timeout=1s period=10s successThreshold=1 failureThreshold=3
+    Environment Variables from:
+      inference-config  ConfigMap  Optional: false
+    Environment:        <none>
+    Mounts:             <none>
+  Volumes:              <none>
+  Node-Selectors:       <none>
+  Tolerations:          <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  prediction-api-56cd5bfcc (0/0 replicas created), prediction-api-777cb8848 (0/0 replicas created), prediction-api-5b747db5b5 (0/0 replicas created)
+NewReplicaSet:   prediction-api-7d4b778d77 (2/2 replicas created)
+Events:
+  Type    Reason             Age                   From                   Message
+  ----    ------             ----                  ----                   -------
+  Normal  ScalingReplicaSet  4m22s                 deployment-controller  Scaled up replica set prediction-api-56cd5bfcc from 0 to 2
+  Normal  ScalingReplicaSet  2m55s                 deployment-controller  Scaled up replica set prediction-api-777cb8848 from 0 to 1
+  Normal  ScalingReplicaSet  2m55s                 deployment-controller  Scaled up replica set prediction-api-777cb8848 from 1 to 2
+  Normal  ScalingReplicaSet  113s                  deployment-controller  Scaled down replica set prediction-api-777cb8848 from 2 to 0
+  Normal  ScalingReplicaSet  113s                  deployment-controller  Scaled up replica set prediction-api-56cd5bfcc from 1 to 2
+  Normal  ScalingReplicaSet  102s (x2 over 2m55s)  deployment-controller  Scaled down replica set prediction-api-56cd5bfcc from 2 to 1
+  Normal  ScalingReplicaSet  102s                  deployment-controller  Scaled up replica set prediction-api-5b747db5b5 from 0 to 1
+  Normal  ScalingReplicaSet  102s                  deployment-controller  Scaled up replica set prediction-api-5b747db5b5 from 1 to 2
+  Normal  ScalingReplicaSet  22s                   deployment-controller  Scaled down replica set prediction-api-5b747db5b5 from 2 to 0
+  Normal  ScalingReplicaSet  11s (x2 over 22s)     deployment-controller  (combined from similar events): Scaled down replica set prediction-api-56cd5bfcc from 1 to 0

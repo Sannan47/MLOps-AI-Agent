@@ -1,0 +1,2 @@
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+prediction-api   ClusterIP   10.96.173.55   <none>        80/TCP    4m28s   app.kubernetes.io/name=prediction-api

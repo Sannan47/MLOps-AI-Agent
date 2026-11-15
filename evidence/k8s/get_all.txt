@@ -1,0 +1,15 @@
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/prediction-api-7d4b778d77-4sx25   1/1     Running   0          22s
+pod/prediction-api-7d4b778d77-dc6ss   1/1     Running   0          22s
+
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/prediction-api   ClusterIP   10.96.173.55   <none>        80/TCP    4m28s
+
+NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/prediction-api   2/2     2            2           4m22s
+
+NAME                                        DESIRED   CURRENT   READY   AGE
+replicaset.apps/prediction-api-56cd5bfcc    0         0         0       4m22s
+replicaset.apps/prediction-api-5b747db5b5   0         0         0       102s
+replicaset.apps/prediction-api-777cb8848    0         0         0       2m55s
+replicaset.apps/prediction-api-7d4b778d77   2         2         2       22s

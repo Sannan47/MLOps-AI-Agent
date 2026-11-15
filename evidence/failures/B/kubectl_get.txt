@@ -1,0 +1,11 @@
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/prediction-api-56cd5bfcc-w2f4d    1/1     Running   0          3m46s
+pod/prediction-api-5b747db5b5-9qz4r   0/1     Running   0          66s
+pod/prediction-api-5b747db5b5-b5qpw   0/1     Running   0          66s
+
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+service/prediction-api   ClusterIP   10.96.173.55   <none>        80/TCP    3m52s
+
+NAME                       ENDPOINTS         AGE
+endpoints/prediction-api   10.244.0.6:8000   3m52s
