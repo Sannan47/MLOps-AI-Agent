@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 import joblib
@@ -24,6 +25,28 @@ def build_model(t: dict):
     raise ValueError(f"unknown model {t['model']}")
 
 
+def supersede_previous_attempts(experiment_id: str, dag_run_id: str, client=None) -> list[str]:
+    """Mark runs left by earlier attempts of the same Airflow DAG run as FAILED.
+
+    An Airflow retry of `train_model` can follow an attempt that already logged a
+    complete MLflow run (e.g. the task failed after returning). Without this, that
+    run stays FINISHED with no metrics and looks like a real training run.
+    """
+    client = client or mlflow.MlflowClient(tracking_uri())
+    escaped = dag_run_id.replace("'", "\\'")
+    runs = client.search_runs(
+        [experiment_id], filter_string=f"tags.`airflow.dag_run_id` = '{escaped}'"
+    )
+    superseded = []
+    for r in runs:
+        if r.info.status == "FAILED" and r.data.tags.get("airflow.superseded_by_retry"):
+            continue
+        client.set_tag(r.info.run_id, "airflow.superseded_by_retry", "true")
+        client.set_terminated(r.info.run_id, status="FAILED")
+        superseded.append(r.info.run_id)
+    return superseded
+
+
 def train(
     processed: str | Path,
     model_out: str | Path,
@@ -34,7 +57,10 @@ def train(
     params_path: str | Path | None = None,
 ) -> str:
     mlflow.set_tracking_uri(tracking_uri())
-    mlflow.set_experiment(experiment or params["mlflow"]["experiment"])
+    exp = mlflow.set_experiment(experiment or params["mlflow"]["experiment"])
+    dag_run_id = os.environ.get("AIRFLOW_DAG_RUN_ID")
+    if dag_run_id:
+        supersede_previous_attempts(exp.experiment_id, dag_run_id)
     label = params["data"]["label"]
     df = pd.read_csv(Path(processed) / "train.csv")
     model = build_model(params["train"])
