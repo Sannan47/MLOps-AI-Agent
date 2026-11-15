@@ -114,3 +114,9 @@ def test_mlflow_compare_experiments_and_run_details():
 @pytest.mark.integration
 def test_integration_real_mlflow():
     assert registry.execute("mlflow_list_experiments", {}, "r").status == "ok"
+
+
+def test_mlflow_registry_unknown_model_name_is_rejected_not_empty():
+    models = [NS(name="breast_cancer_clf", aliases={"champion": "1"})]
+    res = call(FakeClient([], models), "mlflow_get_model_registry", {"model_name": "my-experiment"})
+    assert res.status == "rejected" and "breast_cancer_clf" in res.error

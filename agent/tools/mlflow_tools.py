@@ -275,6 +275,12 @@ def compare_experiments(inp: CompareExperimentsInput) -> dict:
 )
 def get_model_registry(inp: ModelRegistryInput) -> list[dict]:
     c = get_client()
+    names = [rm.name for rm in c.search_registered_models()]
+    if inp.model_name and inp.model_name not in names:
+        raise ToolRejected(
+            f"registered model '{inp.model_name}' not found; registered models: {names}. "
+            "Omit model_name to list all (experiment names are not model names)."
+        )
     out = []
     for rm in c.search_registered_models():
         if inp.model_name and rm.name != inp.model_name:

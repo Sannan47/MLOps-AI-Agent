@@ -38,3 +38,11 @@ class Flexible(BaseModel):
 
 def ns(**kw):
     return SimpleNamespace(**kw)
+
+
+@pytest.fixture(autouse=True)
+def _no_transcripts(monkeypatch):
+    """Tests must never write evidence/conversations (real transcripts only)."""
+    from agent.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "save_transcripts", False)
