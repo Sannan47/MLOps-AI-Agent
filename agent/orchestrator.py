@@ -20,7 +20,10 @@ TIME_BUDGET_S = 240.0
 MAX_RESULT_CHARS = 12000
 PROMPT_PATH = Path(__file__).parent / "prompts" / "system.md"
 
-CITE_RE = re.compile(r"\[(E-[0-9a-f]{6})\]")
+# Evidence ids may appear alone, in brackets, or several per bracket: [E-aaaaaa, E-bbbbbb]
+CITE_TOKEN = r"E-[0-9a-f]{6}"
+CITE_RE = re.compile(r"(?<![0-9A-Za-z])(" + CITE_TOKEN + r")(?![0-9A-Za-z])")
+CITE_BRACKET_RE = re.compile(r"\[\s*" + CITE_TOKEN + r"(?:\s*[,;]\s*" + CITE_TOKEN + r")*\s*\]")
 ISO_DATE_RE = re.compile(
     r"\b\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?"
 )
@@ -78,7 +81,8 @@ def find_unsupported(answer: str, ev: Evidence) -> list[str]:
     for cid in CITE_RE.findall(answer):
         if cid not in ev.ok_ids:
             bad.append(f"[{cid}]")
-    text = CITE_RE.sub(" ", answer)
+    text = CITE_BRACKET_RE.sub(" ", answer)
+    text = CITE_RE.sub(" ", text)
     text = ISO_DATE_RE.sub(" ", text)
     ev_text = ev.ok_text
     for rx in (POD_RE, VERSION_RE, HEX_RE):
@@ -247,10 +251,13 @@ class Agent:
             return revised
         log_event("grounding_violation", unsupported=bad2, attempt=2)
         cleaned = strip_unsupported(revised, bad2)
-        return (
-            cleaned + "\n**Uncertainties**\n- Some claims could not be verified against tool "
-            "evidence and were removed."
-        )
+        note = "- Some claims could not be verified against tool evidence and were removed."
+        lines = cleaned.splitlines()
+        for i, ln in enumerate(lines):
+            if ln.strip().strip("*#: ").lower() == "uncertainties":
+                lines.insert(i + 1, note)
+                return "\n".join(lines)
+        return cleaned + "\n**Uncertainties**\n" + note
 
     def _unavailable_guard(self, answer: str, ev: Evidence, records: list[ToolCallRecord]) -> str:
         by_module: dict[str, list[str]] = {}
