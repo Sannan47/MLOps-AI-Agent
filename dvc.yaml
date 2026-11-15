@@ -1,0 +1,27 @@
+stages:
+  validate:
+    cmd: python -m training.validate --input data/raw/dataset.csv --report validation_report.json
+    deps: [data/raw/dataset.csv, training/validate.py]
+    params: [data]
+    outs: [validation_report.json]
+  preprocess:
+    cmd: python -m training.preprocess --input data/raw/dataset.csv --out data/processed
+    deps: [data/raw/dataset.csv, training/preprocess.py, validation_report.json]
+    params: [data, split]
+    outs: [data/processed]
+  train:
+    cmd: python -m training.train
+    deps: [data/processed, training/train.py]
+    params: [train, mlflow]
+    outs:
+      - models/model.joblib
+      - models/run_id.txt:
+          cache: false
+  evaluate:
+    cmd: python -m training.evaluate
+    deps: [data/processed, models/model.joblib, models/run_id.txt, training/evaluate.py]
+    metrics:
+      - metrics.json:
+          cache: false
+    outs:
+      - confusion_matrix.png

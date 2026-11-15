@@ -1,0 +1,131 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python -m training.validate --input data/raw/dataset.csv --report 
+      validation_report.json
+    deps:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: fef371d8eca66ae4c18db6d1a739e643
+      size: 24706
+    - path: training/validate.py
+      hash: md5
+      md5: 0f75bdb11ada3f1d858ea7e3eab39904
+      size: 2332
+    params:
+      params.yaml:
+        data:
+          path: data/raw/dataset.csv
+          label: label
+          features:
+          - mean_radius
+          - mean_texture
+          - mean_perimeter
+          - mean_area
+          - mean_smoothness
+          max_null_ratio: 0.05
+          min_rows: 100
+    outs:
+    - path: validation_report.json
+      hash: md5
+      md5: 0922816234b899ed27b04660a3d101f5
+      size: 216
+  preprocess:
+    cmd: python -m training.preprocess --input data/raw/dataset.csv --out 
+      data/processed
+    deps:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: fef371d8eca66ae4c18db6d1a739e643
+      size: 24706
+    - path: training/preprocess.py
+      hash: md5
+      md5: d9bdbc7f0599c3a96f17a3a06babb730
+      size: 1432
+    - path: validation_report.json
+      hash: md5
+      md5: 0922816234b899ed27b04660a3d101f5
+      size: 216
+    params:
+      params.yaml:
+        data:
+          path: data/raw/dataset.csv
+          label: label
+          features:
+          - mean_radius
+          - mean_texture
+          - mean_perimeter
+          - mean_area
+          - mean_smoothness
+          max_null_ratio: 0.05
+          min_rows: 100
+        split:
+          seed: 42
+          test_size: 0.2
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 18e3d08695d225bf164879c6dff01b9e.dir
+      size: 58956
+      nfiles: 3
+  train:
+    cmd: python -m training.train
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 18e3d08695d225bf164879c6dff01b9e.dir
+      size: 58956
+      nfiles: 3
+    - path: training/train.py
+      hash: md5
+      md5: 3e09d3f18eb0ca3655353a7e5da335cc
+      size: 2710
+    params:
+      params.yaml:
+        mlflow:
+          experiment: breast-cancer-classifier
+          model_name: breast_cancer_clf
+        train:
+          model: logistic_regression
+          C: 1.0
+          max_iter: 200
+          n_estimators: 100
+          max_depth:
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 731cd36325bef3fe8f725e220f44fe16
+      size: 1231
+    - path: models/run_id.txt
+      hash: md5
+      md5: 18cc6ac0d62d74f417c31debe80530c1
+      size: 32
+  evaluate:
+    cmd: python -m training.evaluate
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 18e3d08695d225bf164879c6dff01b9e.dir
+      size: 58956
+      nfiles: 3
+    - path: models/model.joblib
+      hash: md5
+      md5: 731cd36325bef3fe8f725e220f44fe16
+      size: 1231
+    - path: models/run_id.txt
+      hash: md5
+      md5: 18cc6ac0d62d74f417c31debe80530c1
+      size: 32
+    - path: training/evaluate.py
+      hash: md5
+      md5: 61c818288ef6b4715d685f03b21e23ea
+      size: 2672
+    outs:
+    - path: confusion_matrix.png
+      hash: md5
+      md5: 41339f2d51dea564b577957506d2975d
+      size: 11877
+    - path: metrics.json
+      hash: md5
+      md5: 2cb807450b08ed9ba8c3489268e5ef4e
+      size: 155

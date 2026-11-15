@@ -1,0 +1,21 @@
+data:
+  path: data/raw/dataset.csv
+  label: label
+  features: [mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness]
+  max_null_ratio: 0.05
+  min_rows: 100
+split:
+  seed: 42
+  test_size: 0.2
+train:
+  model: logistic_regression   # logistic_regression | random_forest
+  C: 1.0
+  max_iter: 200
+  n_estimators: 100
+  max_depth: null
+mlflow:
+  experiment: breast-cancer-classifier
+  model_name: breast_cancer_clf
+gate:
+  min_f1: 0.90
+  max_f1_drop_vs_champion: 0.02

@@ -15,3 +15,5 @@ tmp/
 serving/model/
 /data/processed/
 /models/
+/validation_report.json
+/confusion_matrix.png
