@@ -63,7 +63,11 @@ docker compose -f infra/docker-compose.yaml --env-file .env up -d --build
 #    MLflow UI http://localhost:5000, Airflow UI http://localhost:8080
 
 # 3. Data (DVC local remote, versions tagged data-v1.0, data-v1.1, data-v2.0)
-uv run dvc pull
+#    dvc-storage/ is git-ignored, so in a fresh clone rebuild it first (versions are deterministic,
+#    md5s are checked against the committed .dvc files), then pull and reproduce:
+uv run python -m scripts.restore_dvc_remote
+uv run dvc pull data/raw/dataset.csv.dvc
+uv run dvc repro
 
 # 4. Initial training history (9 runs across dataset versions, registers champion/challenger)
 MLFLOW_TRACKING_URI=http://localhost:5000 uv run python -m scripts.populate_history
