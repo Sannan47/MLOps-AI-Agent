@@ -1,0 +1,23 @@
+{
+  "request_id": "abc123",
+  "question": "hi",
+  "tool_results": [],
+  "response": {
+    "request_id": "abc123",
+    "answer": "**Known facts**\n- hello\n**Uncertainties**\n- none\n**Recommended actions**\n- none",
+    "facts": [
+      {
+        "statement": "hello",
+        "evidence_ids": []
+      }
+    ],
+    "uncertainties": [
+      "none"
+    ],
+    "recommendations": [
+      "none"
+    ],
+    "tool_calls": [],
+    "pending_actions": []
+  }
+}

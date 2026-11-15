@@ -1,0 +1,277 @@
+{
+  "request_id": "req5",
+  "question": "loop forever",
+  "tool_results": [
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.66,
+      "evidence_id": "E-8df011",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.606373Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.51,
+      "evidence_id": "E-61cbc9",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.607373Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.48,
+      "evidence_id": "E-b41dcc",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.608373Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.45,
+      "evidence_id": "E-cfd3f5",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.609376Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.42,
+      "evidence_id": "E-3a77d8",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.610374Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.52,
+      "evidence_id": "E-81b801",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.611372Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.45,
+      "evidence_id": "E-d209df",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.612373Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.45,
+      "evidence_id": "E-a29f96",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.613371Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.42,
+      "evidence_id": "E-217543",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.613371Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.5,
+      "evidence_id": "E-d37e83",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.614374Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.42,
+      "evidence_id": "E-d7e938",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.615375Z"
+    },
+    {
+      "tool": "dvc_list_versions",
+      "status": "ok",
+      "data": [
+        {
+          "tag": "data-v1.1"
+        }
+      ],
+      "error": null,
+      "duration_ms": 0.41,
+      "evidence_id": "E-dcbfac",
+      "request_id": "req5",
+      "timestamp": "2026-11-15T08:30:09.616376Z"
+    }
+  ],
+  "response": {
+    "request_id": "req5",
+    "answer": "**Known facts**\n- Investigation stopped before completion (iteration or time budget reached).\n**Uncertainties**\n- Remaining questions were not answered.\n**Recommended actions**\n- Ask a narrower question.",
+    "facts": [
+      {
+        "statement": "Investigation stopped before completion (iteration or time budget reached).",
+        "evidence_ids": []
+      }
+    ],
+    "uncertainties": [
+      "Remaining questions were not answered."
+    ],
+    "recommendations": [
+      "Ask a narrower question."
+    ],
+    "tool_calls": [
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.66,
+        "evidence_id": "E-8df011"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.51,
+        "evidence_id": "E-61cbc9"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.48,
+        "evidence_id": "E-b41dcc"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.45,
+        "evidence_id": "E-cfd3f5"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.42,
+        "evidence_id": "E-3a77d8"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.52,
+        "evidence_id": "E-81b801"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.45,
+        "evidence_id": "E-d209df"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.45,
+        "evidence_id": "E-a29f96"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.42,
+        "evidence_id": "E-217543"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.5,
+        "evidence_id": "E-d37e83"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.42,
+        "evidence_id": "E-d7e938"
+      },
+      {
+        "tool": "dvc_list_versions",
+        "args": {},
+        "status": "ok",
+        "duration_ms": 0.41,
+        "evidence_id": "E-dcbfac"
+      }
+    ],
+    "pending_actions": []
+  }
+}

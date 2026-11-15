@@ -1,0 +1,42 @@
+{
+  "request_id": "req4",
+  "question": "best?",
+  "tool_results": [
+    {
+      "tool": "mlflow_find_best_run",
+      "status": "unavailable",
+      "data": null,
+      "error": "ConnectionError: Connection refused",
+      "duration_ms": 0.62,
+      "evidence_id": "E-b2b8d9",
+      "request_id": "req4",
+      "timestamp": "2026-11-15T08:30:09.591365Z"
+    }
+  ],
+  "response": {
+    "request_id": "req4",
+    "answer": "**Known facts**\n- Nothing to report\n- mlflow information could not be retrieved (service unavailable, timed out or errored); no conclusions are drawn about it.",
+    "facts": [
+      {
+        "statement": "Nothing to report",
+        "evidence_ids": []
+      },
+      {
+        "statement": "mlflow information could not be retrieved (service unavailable, timed out or errored); no conclusions are drawn about it.",
+        "evidence_ids": []
+      }
+    ],
+    "uncertainties": [],
+    "recommendations": [],
+    "tool_calls": [
+      {
+        "tool": "mlflow_find_best_run",
+        "args": {},
+        "status": "unavailable",
+        "duration_ms": 0.62,
+        "evidence_id": "E-b2b8d9"
+      }
+    ],
+    "pending_actions": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "request_id": "req7",
+  "question": "hi",
+  "tool_results": [],
+  "response": {
+    "request_id": "req7",
+    "answer": "**Known facts**\n- None: the LLM is unavailable (rate limited).\n**Uncertainties**\n- The request could not be processed.\n**Recommended actions**\n- Retry later.",
+    "facts": [
+      {
+        "statement": "None: the LLM is unavailable (rate limited).",
+        "evidence_ids": []
+      }
+    ],
+    "uncertainties": [
+      "The request could not be processed."
+    ],
+    "recommendations": [
+      "Retry later."
+    ],
+    "tool_calls": [],
+    "pending_actions": []
+  }
+}

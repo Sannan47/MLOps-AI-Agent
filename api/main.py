@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 import agent.tools  # noqa: F401
 from agent.config import get_settings
-from agent.llm import AnthropicLLM, LLMClient, LLMUnavailable
+from agent.llm import LLMClient, LLMUnavailable, make_llm
 from agent.logging_utils import log_event, new_request_id, request_id_var
 from agent.orchestrator import Agent
 from agent.registry import registry
@@ -19,7 +19,7 @@ from agent.registry import registry
 app = FastAPI(title="MLOps AI Agent", version="1.0.0")
 
 # Overridable in tests: returns the LLM client used for each /chat call.
-llm_factory: Callable[[], LLMClient] = AnthropicLLM
+llm_factory: Callable[[], LLMClient] = make_llm
 
 
 class ChatRequest(BaseModel):
