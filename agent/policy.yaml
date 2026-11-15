@@ -1,0 +1,5 @@
+max_model_age_days: 30
+min_f1: 0.90
+max_f1_drop_vs_champion: 0.02
+retrain_if_new_data_version: true
+retrain_if_last_gate_failed: false
